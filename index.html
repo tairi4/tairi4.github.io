@@ -154,14 +154,9 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .panel[data-go="world"]::before{content:"";position:absolute;left:0;right:0;top:0;height:16%;z-index:1;background:linear-gradient(180deg,var(--ink),rgba(6,6,6,0));pointer-events:none}
 .bg-proj{background:linear-gradient(180deg,#1b1a18,#0d0c0b)}
 .bg-street{background:radial-gradient(90% 60% at 50% 30%, #2d2a26, #0c0b0a)}
-/* «Мир Таири» на компьютере: холст «Москва» (вертикальный, 694×960) показан целиком в своих пропорциях справа, без растягивания на всю ширину.
-   Холст на 20% выше раздела — верх и низ немного уходят за края; бока и низ растушёваны в чёрный */
+/* «Мир Таири»: холст «Москва» на всю ширину раздела (img/cityMap_1000/1600/2400.webp из PSD 5258×7276 — резкий на любом экране).
+   На компьютере подпись столбиком слева */
 @media (min-width:761px){
-.bg-street{background:var(--ink)}
-.bg-street img{inset:auto;top:-10%;bottom:auto;left:auto;right:max(3%,calc(50% - 620px));width:auto;height:120%;max-width:none;object-fit:contain;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(0deg,transparent 8%,#000 24%);-webkit-mask-composite:source-in;
-  mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(0deg,transparent 8%,#000 24%);mask-composite:intersect}
-.bg-street::before{background:linear-gradient(90deg,var(--ink) 0%,rgba(6,6,6,0) 45%),linear-gradient(0deg,rgba(6,6,6,.85) 0%,rgba(6,6,6,0) 40%)}
 .panel[data-go="world"] .cap{flex-direction:column;align-items:flex-start;right:auto;max-width:58%}
 }
 .bg svg{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);height:74%;width:auto;max-width:92%}
@@ -662,6 +657,8 @@ footer.wrap > *{width:100%;max-width:1600px;margin-inline:auto}
 window.__IMG = {
   canBg: "img/canBg.webp",
   cityMap: "img/cityMap.webp",
+  cityMapHD: "img/cityMap_1600.webp",   // холст «Москва» из PSD для раздела «Мир Таири» на главной
+  cityMapSet: "img/cityMap_1000.webp 1000w, img/cityMap_1600.webp 1600w, img/cityMap_2400.webp 2400w",
   a1: "img/a1.webp",
   a2: "img/a2.webp",
   a3: "img/a3.webp",
@@ -1539,7 +1536,7 @@ const PANEL_ART = {
   artPhoto:`<img src="${IMG.print}" alt="Принт «П-44» в раме" loading="lazy">`,
   projPhoto:`<img src="${IMG.museum}" alt="Роспись в Музее транспорта Москвы рядом с вагоном метро" loading="lazy">`,
   tatPhoto:`<img src="${IMG.tatBack}" alt="Спина с татуировками Таири" loading="lazy">`,
-  worldPhoto:`<img src="${IMG.cityMap}" alt="Холст «Москва»: город от крыш до тоннелей" loading="lazy">`,
+  worldPhoto:`<img src="${IMG.cityMapHD||IMG.cityMap}"${IMG.cityMapSet?` srcset="${IMG.cityMapSet}" sizes="100vw"`:""} alt="Холст «Москва»: город от крыш до тоннелей" loading="lazy">`,
   art:`<svg viewBox="0 0 200 200"><rect x="30" y="10" width="140" height="180" fill="#f7f2e8" stroke="#0c0b0a" stroke-width="1"/><circle cx="100" cy="80" r="40" fill="#ff5f14"/><path d="M70 120 L80 50 L100 74 L120 40 L130 120Z" fill="#0c0b0a"/><rect x="50" y="138" width="100" height="10" fill="#0c0b0a"/><rect x="50" y="154" width="64" height="10" fill="#0c0b0a" opacity=".6"/></svg>`,
   proj:`<svg viewBox="0 0 200 200"><rect x="10" y="40" width="180" height="110" fill="#262320"/><rect x="20" y="52" width="160" height="70" fill="#ffb03a"/><g fill="#0c0b0a"><circle cx="50" cy="140" r="12"/><circle cx="150" cy="140" r="12"/></g><text x="100" y="98" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial" font-weight="700" font-size="26" fill="#0c0b0a">TAIRI</text></svg>`,
   street:`<svg viewBox="0 0 200 200"><path d="M20 190 L20 90 Q100 -10 180 90 L180 190Z" fill="#050505"/><path d="M40 190 L40 96 Q100 20 160 96 L160 190Z" fill="#1c1916"/><text x="100" y="140" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial" font-weight="700" font-size="40" fill="#ff5f14" transform="rotate(-6 100 140)">TAIRI</text><path d="M60 190 L90 150 L110 150 L140 190Z" fill="#2c2722"/></svg>`
