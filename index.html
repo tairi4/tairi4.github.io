@@ -567,8 +567,10 @@ footer.wrap > *{width:100%;max-width:1600px;margin-inline:auto}
 .foot-art .wing.left{left:0;width:45.84%;transform-origin:93.3% 28.2%;animation:flapL 1.5s ease-in-out infinite}
 .foot-art .wing.right{left:51.9%;width:48.1%;transform-origin:6% 27.5%;animation:flapR 1.5s ease-in-out infinite}
 /* тело с лапками и камерой неподвижно, машут только крылья (лапки и камера вырезаны из картинок крыльев в bat_body4).
-   В bat_body4 по бокам остались неподвижные обрубки корней крыльев с косточкой — маска их скрывает, этот участок рисует само крыло */
-.foot-art .bat-body{left:36.166%;width:24.774%;z-index:1;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 548 531' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' d='M0 0H548V531H0Z M0 0H150V238H0Z M412 0H548V228H412Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 548 531' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' d='M0 0H548V531H0Z M0 0H150V238H0Z M412 0H548V228H412Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+   В bat_body4 по бокам остались неподвижные обрубки корней крыльев с косточкой — маска их скрывает, этот участок рисует само крыло.
+   Нижний край выреза у обрубка (ступенька 113–150×226–238 слева и 412–436×214–228 справа) рисует тело: так на взмахе у выемок
+   под крыльями нет щели. У bat_left4/bat_right5 срезаны нижние лепестки корней, которые на взмахе вылезали крючками */
+.foot-art .bat-body{left:36.166%;width:24.774%;z-index:1;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 548 531' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' d='M0 0H548V531H0Z M0 0H150V226H113V238H0Z M412 0H548V228H436V214H412Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 548 531' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' d='M0 0H548V531H0Z M0 0H150V226H113V238H0Z M412 0H548V228H436V214H412Z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
 @keyframes flapL{0%,100%{transform:rotate(9deg)}50%{transform:rotate(-11deg)}}
 @keyframes flapR{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(11deg)}}
 @media (max-width:600px){.foot-art .bat{width:100%}}
@@ -1647,7 +1649,7 @@ function bindClub(){
 function footer(){
   return `<footer class="wrap">
     <div class="foot-art" aria-hidden="true">
-      <div class="bat"><img class="wing left" src="img/bat_left3.webp" alt="" loading="lazy"><img class="bat-body" src="img/bat_body4.webp" alt="" loading="lazy"><img class="wing right" src="img/bat_right4.webp" alt="" loading="lazy"></div>
+      <div class="bat"><img class="wing left" src="img/bat_left4.webp" alt="" loading="lazy"><img class="bat-body" src="img/bat_body4.webp" alt="" loading="lazy"><img class="wing right" src="img/bat_right5.webp" alt="" loading="lazy"></div>
     </div>
     <div class="foot-nav" style="display:flex;gap:20px;flex-wrap:wrap"><a href="#obnova" data-go="obnova">Обнова</a><a href="#merch" data-go="merch">Мерч</a><a href="#art" data-go="art">Искусство</a><a href="#projects" data-go="projects">Проекты</a><a href="#tattoo" data-go="tattoo">Тату</a><a href="#events" data-go="events">Мероприятия</a><a href="#world" data-go="world">Мир Таири</a></div>
     <div class="foot-social"><a href="${CONFIG.channel}" target="_blank" rel="noopener"><img class="lt" src="${IMG.lt_tg}" alt="Telegram-канал" loading="lazy"></a><a href="${CONFIG.insta}" target="_blank" rel="noopener"><img class="lt" src="${IMG.lt_insta}" alt="Instagram" loading="lazy"></a><a href="${CONFIG.tg}" target="_blank" rel="noopener"><img class="lt" src="${IMG.lt_write}" alt="Написать @tairi" loading="lazy"></a></div>
