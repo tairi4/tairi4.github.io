@@ -320,6 +320,36 @@ form{display:flex;flex-direction:column;gap:14px}
 .msg.ok{color:var(--ember)} .msg.err{color:#ff7a6b}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:480px){.two{grid-template-columns:1fr}}
+.vpn-warn{border-left:3px solid var(--ember);background:var(--asphalt-2);padding:10px 12px;font-size:13px;line-height:1.45;color:var(--bone)}
+.drawer .my-link{color:var(--smoke);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;align-self:flex-start}
+
+/* ============ МОИ ЗАКАЗЫ ============ */
+.myo{max-width:760px;display:flex;flex-direction:column;gap:16px;padding-bottom:28px}
+.myo-card{border:1px solid var(--line);background:var(--asphalt);padding:18px}
+.myo-card.wait{border-color:var(--flame)}
+.myo-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.myo-id{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em}
+.myo-st{font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line);color:var(--smoke)}
+.myo-st.on{background:var(--flame);border-color:var(--flame);color:var(--ink)}
+.myo-date{color:var(--smoke);font-size:13px;margin-top:4px}
+.myo-card ul{margin:12px 0;padding-left:18px;color:#cfc7ba;font-size:15px;line-height:1.5}
+.myo-next{font-size:15px;line-height:1.5;margin:12px 0 0}
+.myo-next a{color:var(--bone)}
+.myo-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.myo-act .btn{width:auto;flex:1 1 200px;margin:0;padding:13px 16px}
+.myo-act .msg{flex-basis:100%}
+.myo-rm{background:none;border:0;color:var(--smoke);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:12px 0 0;cursor:pointer}
+.myo-empty{color:var(--smoke);font-size:15px;line-height:1.5}
+.myo-note{border-left:3px solid var(--flame);background:var(--asphalt);padding:12px 14px;font-size:15px;line-height:1.45}
+.myo-find{max-width:760px;border-top:1px solid var(--line);padding:28px 0 48px}
+.myo-find h2{font-family:var(--display);font-weight:700;letter-spacing:-.035em;font-size:clamp(24px,4vw,32px);margin:0 0 8px}
+.myo-find p{color:#cfc7ba;margin:0 0 16px;line-height:1.5}
+.myo-find .btn{width:auto;align-self:flex-start;margin:0}
+.paybar{position:fixed;left:var(--gut);right:var(--gut);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:55;background:var(--asphalt-2);border:1px solid var(--flame);padding:10px 12px;display:flex;align-items:center;gap:10px;font-size:14px;max-width:560px;margin-inline:auto}
+.paybar span{flex:1;min-width:0}
+.paybar .btn{width:auto;margin:0;padding:10px 14px;font-size:12px;flex:none}
+.paybar .x{background:none;border:0;color:var(--smoke);font-size:22px;line-height:1;padding:4px 6px;cursor:pointer;flex:none}
+.sheet .menu-my{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);text-decoration:none;margin-top:14px;padding:8px 0;align-self:flex-start}
 
 /* ============ МИР ТАИРИ: ГОРОД В ТРЁХ УРОВНЯХ ============ */
 .city{display:grid;grid-template-columns:minmax(260px,400px) 1fr;gap:clamp(28px,4vw,56px);align-items:start}
@@ -616,6 +646,7 @@ footer.wrap > *{width:100%;max-width:1600px;margin-inline:auto}
   <a href="#projects" data-go="projects"><img class="lt" src="img/lt_projects.webp" alt="Проекты" loading="lazy" data-warm></a>
   <a href="#tattoo" data-go="tattoo"><img class="lt" src="img/lt_tattoo.webp" alt="Тату" loading="lazy" data-warm></a>
   <a href="#events" data-go="events"><img class="lt" src="img/lt_events.webp" alt="Мероприятия" loading="lazy" data-warm></a>
+  <a href="#my" data-go="my" class="menu-my">Мои заказы</a>
 </div>
 
 <main id="app"></main>
@@ -1596,7 +1627,7 @@ function footer(){
     </div>
     <div class="foot-nav" style="display:flex;gap:20px;flex-wrap:wrap"><a href="#obnova" data-go="obnova">Обнова</a><a href="#merch" data-go="merch">Мерч</a><a href="#art" data-go="art">Искусство</a><a href="#projects" data-go="projects">Проекты</a><a href="#tattoo" data-go="tattoo">Тату</a><a href="#events" data-go="events">Мероприятия</a><a href="#world" data-go="world">Мир Таири</a></div>
     <div class="foot-social"><a href="${CONFIG.channel}" target="_blank" rel="noopener"><img class="lt" src="${IMG.lt_tg}" alt="Telegram-канал" loading="lazy"></a><a href="${CONFIG.insta}" target="_blank" rel="noopener"><img class="lt" src="${IMG.lt_insta}" alt="Instagram" loading="lazy"></a><a href="${CONFIG.tg}" target="_blank" rel="noopener"><img class="lt" src="${IMG.lt_write}" alt="Написать @tairi" loading="lazy"></a></div>
-    <div class="foot-contacts"><a href="#privacy" data-go="privacy">Политика обработки персональных данных</a></div>
+    <div class="foot-contacts"><a href="#my" data-go="my">Мои заказы</a><a href="#privacy" data-go="privacy">Политика обработки персональных данных</a></div>
   </footer>`;
 }
 
@@ -1679,7 +1710,7 @@ const EVENTS = [
 function pdData(){ return "имя и фамилия, номер телефона, имя пользователя в Telegram, город и адрес пункта выдачи СДЭК, комментарий к заказу"; }
 function renderPrivacy(){
   const TG=`<a href="${CONFIG.tg}" target="_blank" rel="noopener">Telegram @tairi</a>`;
-  app.innerHTML = `<section class="view wrap">${head("Политика обработки персональных данных","Редакция от 7 октября 2026 года.")}
+  app.innerHTML = `<section class="view wrap">${head("Политика обработки персональных данных","Редакция от 12 октября 2026 года.")}
     <div class="buyers">
       <div><h2>1. Оператор</h2><p>Художник Таири (TAHIRY), владелец сайта tahiry.world. Связь по вопросам персональных данных: ${TG}.</p></div>
       <div><h2>2. Какие данные обрабатываются</h2><p>При оформлении заказа на сайте: ${pdData()}, а также состав и сумма заказа.</p>
@@ -1687,12 +1718,12 @@ function renderPrivacy(){
       <div><h2>3. Цели обработки</h2><ul><li>оформление и исполнение заказа;</li><li>связь с покупателем по заказу, в том числе в Telegram;</li><li>доставка заказа;</li><li>рассмотрение обращений и претензий.</li></ul></div>
       <div><h2>4. Правовые основания</h2><p>Исполнение договора купли-продажи, стороной которого является покупатель (пункт 5 части 1 статьи 6 Федерального закона № 152-ФЗ «О персональных данных»), и согласие покупателя на обработку персональных данных.</p></div>
       <div><h2>5. Действия с данными</h2><p>Сбор, запись, систематизация, хранение, уточнение, использование, передача службе доставки, удаление и уничтожение. Обработка ведётся с использованием средств автоматизации и без них. Решения, порождающие юридические последствия, на основании исключительно автоматизированной обработки не принимаются.</p></div>
-      <div><h2>6. Где хранятся данные</h2><p>Данные заказов записываются и хранятся в базе данных на серверах хостинг-провайдера, расположенных на территории Российской Федерации. Уведомление о новом заказе, которое получает оператор, содержит только номер, состав и сумму заказа, без персональных данных покупателя.</p></div>
+      <div><h2>6. Где хранятся данные</h2><p>Данные заказов записываются и хранятся в базе данных на серверах хостинг-провайдера, расположенных на территории Российской Федерации. Уведомление о новом заказе, которое получает оператор, содержит номер, состав и сумму заказа, а также имя пользователя покупателя в Telegram — чтобы связаться с ним по заказу. Имя, телефон и адрес в уведомление не включаются.</p></div>
       <div><h2>7. Передача третьим лицам</h2><p>Для доставки заказа оператор передаёт службе доставки СДЭК имя, номер телефона и адрес пункта выдачи. Иным лицам данные не передаются, кроме случаев, предусмотренных законодательством Российской Федерации.</p></div>
       <div><h2>8. Срок хранения</h2><p>Данные хранятся в течение трёх лет после исполнения заказа для рассмотрения возможных претензий, затем удаляются. При отзыве согласия данные удаляются, если их дальнейшая обработка не требуется для исполнения договора или по закону.</p></div>
       <div><h2>9. Права покупателя</h2><p>Покупатель вправе получить сведения об обработке своих данных, потребовать их уточнения, блокирования или удаления, а также отозвать согласие. Для этого нужно написать в ${TG}. Ответ направляется в течение 10 рабочих дней.</p></div>
       <div><h2>10. Защита данных</h2><p>Данные передаются по защищённому соединению (https). Доступ к заказам есть только у оператора и защищён паролем.</p></div>
-      <div><h2>11. Файлы cookie и хранилище браузера</h2><p>Сайт хранит в браузере содержимое корзины, а при оплате картой — ещё номер заказа, чтобы показать результат оплаты после возврата со страницы банка. Сервисы веб-аналитики и рекламные счётчики на сайте не используются.</p></div>
+      <div><h2>11. Файлы cookie и хранилище браузера</h2><p>Сайт хранит в браузере содержимое корзины, номера оформленных заказов и ключи доступа к ним — для раздела «Мои заказы», а при оплате картой — номер заказа, чтобы показать результат оплаты после возврата со страницы банка. В «Моих заказах» видны состав, сумма и статус заказа, без имени, телефона и адреса. Сервисы веб-аналитики и рекламные счётчики на сайте не используются.</p></div>
       <div><p><a href="#consent" data-go="consent">Текст согласия на обработку персональных данных</a></p></div>
     </div></section>${footer()}`;
 }
@@ -1834,9 +1865,11 @@ function renderWorld(level){
 let stopFire = null;
 function go(name, push=true){
   if(stopFire){stopFire();stopFire=null;}
-  $("#menu").hidden = true;
+  $("#menu").hidden = true; closeCart();
   if(name==="club"||name==="streets"){ name="world"; }
-  ({home:renderHome, obnova:renderObnova, merch:()=>renderMerch(), art:renderArt, projects:renderProjects, world:()=>renderWorld(), tattoo:renderTattoo, events:renderEvents, privacy:renderPrivacy, consent:renderConsent}[name]||renderHome)();
+  ({home:renderHome, obnova:renderObnova, merch:()=>renderMerch(), art:renderArt, projects:renderProjects, world:()=>renderWorld(), tattoo:renderTattoo, events:renderEvents, privacy:renderPrivacy, consent:renderConsent, my:()=>renderMy()}[name]||renderHome)();
+  if(name==="obnova"||name==="merch") refreshShop();   // проданное за это время сразу пропадает с витрины
+  if(name==="my") hidePayBar();
   if(push){ const h=name==="home"?"#home":"#"+name; try{ if(location.hash!==h) history.pushState(null,"",h); else history.replaceState(null,"",h); }catch(e){} }   // pushState: жест «назад» на телефоне возвращает в предыдущий раздел
   if(location.hash==="#club" || arguments[2]==="club") $("#club")?.scrollIntoView(); else window.scrollTo(0,0);
   if(typeof syncTop==="function") syncTop();
@@ -1933,13 +1966,14 @@ function openCart(step="cart"){
   const d=$("#drawer"), s=$("#scrim");
   d.hidden=false; s.hidden=false; s.onclick=closeCart;
   step==="cart" ? drawCart() : drawCheckout();
+  refreshShop();   // если вещь из корзины уже купили, она исчезнет до оформления
 }
 function closeCart(){ $("#drawer").hidden=true; $("#scrim").hidden=true; }
 function drawCart(){
   const d=$("#drawer"); const {sub,disc}=totals();
   const left = Math.max(0, CONFIG.freeShippingFrom - (sub-disc));
   d.innerHTML = `<header><h3>Корзина</h3><button class="btn ghost" id="closeCart" style="padding:8px 12px">Закрыть</button></header>
-    <div class="body">${cart.length?cart.map((l,i)=>{const p=PRODUCTS.find(x=>x.id===l.id);return `
+    <div class="body">${myList().length?`<a href="#my" data-go="my" class="my-link">Мои заказы →</a>`:""}${cart.length?cart.map((l,i)=>{const p=PRODUCTS.find(x=>x.id===l.id);return `
       <div class="line"><div class="th">${pic(p)}</div>
         <div><div class="n">${nbsp(p.name)}</div><div class="s">${l.size?`${p.line==="art"?"Формат":p.line==="kit"?"Размер лонгслива":"Размер"}: ${l.size}`:["hoodie","collab"].includes(p.line)?"Размер — в комментарии к заказу":""}${p.line==="obnova"?", 1/1":""}</div>
           ${p.line==="obnova"?"":`<div class="qty"><button data-dec="${i}" aria-label="Меньше">−</button><span>${l.qty}</span><button data-inc="${i}" aria-label="Больше">+</button></div>`}
@@ -1975,6 +2009,7 @@ function drawCheckout(){
     <div class="field"><label>Оплата</label><div class="choice">
       <label><input type="radio" name="pay" value="card" checked><span>${PAY_ON?"Картой онлайн<small>карта или СБП</small>":"Картой<small>ссылку на оплату пришлём в Telegram</small>"}</span></label>
       <label><input type="radio" name="pay" value="transfer"><span>Переводом<small>реквизиты пришлём в Telegram</small></span></label></div></div>
+    <div class="vpn-warn" id="vpnWarn" hidden>Похоже, у тебя включён VPN или ты за границей: страница оплаты Т-Банка так не откроется. Выключи VPN и обнови страницу — или выбери оплату переводом.</div>
     <div class="field"><label for="oComment">Комментарий</label><textarea id="oComment" placeholder="Например: размер футболки или цвет вышивки на кепке"></textarea></div>
     <div class="totals" id="oTotals"></div>
     ${API_ON?`<label class="consent"><input type="checkbox" id="oConsent"><span>Даю <a href="#consent" data-go="consent" class="pdLink">согласие на обработку персональных данных</a> для оформления и доставки заказа</span></label>`:""}
@@ -1989,6 +2024,8 @@ function drawCheckout(){
     $("#addrField label").textContent = m==="courier"?"Город и адрес доставки":"Город и адрес пункта СДЭК";
     $("#oTotals").innerHTML=`<div><span>Товары</span><span>${rub(sub)}</span></div>${disc?`<div><span>Скидка ${promo}</span><span>−${rub(disc)}</span></div>`:""}<div><span>Доставка</span><span>${sh?rub(sh):"0 ₽"}</span></div><div class="sum"><span>К оплате</span><span>${rub(sub-disc+sh)}</span></div>`;};
   f.querySelectorAll('input[name="ship"]').forEach(r=>r.onchange=upd); upd();
+  const vpn=()=>{ $("#vpnWarn").hidden = !(VIA_CDN && PAY_ON && f.pay.value==="card"); };
+  f.querySelectorAll('input[name="pay"]').forEach(r=>r.addEventListener("change",vpn)); vpn();
   f.onsubmit=e=>{e.preventDefault();
     const need=[["oName","имя"],["oPhone","телефон"],["oTg","Telegram"]]; if(f.ship.value!=="pickup") need.push(["oAddr","адрес"]);
     const miss=need.filter(([id])=>!$("#"+id).value.trim()).map(([,n])=>n);
@@ -2488,11 +2525,18 @@ function startFire(canvas){
 let API_ON=false, PAY_ON=false, SOLD=new Set(), OUT={};
 const sizeKey=s=>(s||"").trim()||"_";
 const outOf=(id,size)=>Array.isArray(OUT[id]) && OUT[id].includes(sizeKey(size));
+let VIA_CDN=false, SHOP_SIG=null, SHOP_AT=0;
+/* Повторная проверка наличия: при возврате на вкладку, при открытии корзины и витрины, раз в 30 секунд на витрине */
+function refreshShop(){ if(document.visibilityState==="visible" && Date.now()-SHOP_AT>15000) checkShop(); }
 async function checkShop(){
   if(!CONFIG.api || location.protocol==="file:") return;
+  SHOP_AT=Date.now();
+  let d=null;
   try{
     const r=await fetch(CONFIG.api+"?a=stock&t="+Date.now(),{cache:"no-store"});  // t= — чтобы CDN не отдал старую копию
-    const d=r.ok ? await r.json() : null;
+    // ответ пришёл через CDN Gcore (у него свои заголовки) — значит, посетитель с VPN или из-за границы
+    VIA_CDN=!!(r.headers.get("x-shard")||r.headers.get("x-id"));
+    d=r.ok ? await r.json() : null;
     if(!d || !d.orders) return;
     API_ON=true; PAY_ON=!!d.pay; SOLD=new Set(d.sold||[]); OUT=(d.out&&typeof d.out==="object")?d.out:{};
     // товары, добавленные со страницы заказов
@@ -2505,6 +2549,9 @@ async function checkShop(){
     }
   }catch(e){ return; }
   const before=cart.length; cart=cart.filter(l=>!SOLD.has(l.id) && !outOf(l.id,l.size)); if(cart.length!==before) saveCart();
+  // витрину перерисовываем, только если что-то изменилось: первая загрузка, продажа, новый товар
+  const sig=JSON.stringify([[...SOLD].sort(),OUT,(d.items||[]).map(i=>[i.id,i.name,i.price,(i.photos||[]).length])]);
+  if(sig===SHOP_SIG) return; SHOP_SIG=sig;
   const v=(location.hash||"#home").slice(1);
   if(v==="obnova") renderObnova();
   if(v==="merch" && app.querySelector("[data-tab]")){ const on=app.querySelector('[data-tab][aria-selected="true"]'); renderMerch(on?on.dataset.tab:"all"); }
@@ -2516,8 +2563,11 @@ async function submitOrder(f){
   try{
     const r=await fetch(CONFIG.api+"?a=order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
       items:cart.map(l=>({id:l.id,qty:l.qty,size:l.size||""})), ship:f.ship.value, pay:f.pay.value, promo,
-      name:val("oName"), phone:val("oPhone"), tg:val("oTg"), addr:val("oAddr"), comment:val("oComment"), consent:true})});
+      name:val("oName"), phone:val("oPhone"), tg:val("oTg"), addr:val("oAddr"), comment:val("oComment"), consent:true,
+      // свои неоплаченные заказы за последний час: если в новом заказе та же вещь 1/1, старый заказ отменится и не будет держать бронь
+      prev:myList().filter(x=>Date.now()-(x.t||0)<3600000).slice(0,5).map(x=>({id:x.id,k:x.k}))})});
     const d=await r.json().catch(()=>({}));
+    if(d.orderId && d.key) myAdd(d.orderId,d.key);   // заказ сразу попадает в «Мои заказы»
     if(r.status===409 && d.ids){
       const names=d.ids.map(id=>(PRODUCTS.find(p=>p.id===id)||{name:id}).name);
       d.ids.forEach(id=>{ const l=cart.find(x=>x.id===id), pr=PRODUCTS.find(x=>x.id===id); if(l && l.size && pr && pr.line!=="obnova"){ (OUT[id]=OUT[id]||[]).push(sizeKey(l.size)); } else SOLD.add(id); });
@@ -2527,9 +2577,14 @@ async function submitOrder(f){
       const t=$("#oTotals"); if(t && cart.length) f.querySelector('input[name="ship"]:checked').dispatchEvent(new Event("change"));
       return;
     }
+    if(r.status===502 && d.orderId){
+      btn.disabled=false; msg.className="msg err";
+      msg.innerHTML=`Банк не создал платёж. Заказ ${d.orderId} сохранён в <a href="#my" data-go="my">«Моих заказах»</a> — оттуда можно оплатить чуть позже. Или выбери перевод.`;
+      return;
+    }
     if(!r.ok) throw new Error(d.error||"Ошибка");
     if(d.paymentUrl){
-      try{ localStorage.setItem("tairi-pending", JSON.stringify({num:d.orderId, api:true})); }catch(e){}
+      try{ localStorage.setItem("tairi-pending", JSON.stringify({num:d.orderId, api:true, at:Date.now()})); }catch(e){}
       location.href=d.paymentUrl; return;
     }
     // вещи 1/1 из этого заказа сразу убираем с витрины, не дожидаясь перезагрузки страницы
@@ -2552,6 +2607,11 @@ function checkPayReturn(){
     if(pend && pend.api){ burnSaved(paid,true,"card"); return; }
     const text=pend&&pend.num===paid&&pend.text ? pend.text.replace("Оплата: картой онлайн","Оплата: картой онлайн — оплачено") : `Заказ ${paid} оплачен картой онлайн.`;
     burn(paid,text,true);
+  } else if(myGet(fail)){
+    // заказ уже создан — повторяем оплату этого же заказа, а не оформляем новый
+    try{ localStorage.removeItem("tairi-pending"); }catch(e){}
+    MY_NOTE=`Оплата заказа ${fail} не прошла. Можно попробовать ещё раз — кнопка «Оплатить» ниже — или написать Таири и оплатить переводом.`;
+    go("my");
   } else {
     openCart("checkout");
     const m=$("#orderMsg"); if(m){ m.className="msg err"; m.textContent="Оплата не прошла. Можно попробовать ещё раз или выбрать перевод."; setTimeout(()=>m.scrollIntoView({block:"center"}),50); }
@@ -2580,11 +2640,142 @@ function burnSaved(num,paid,pay){
   const txt = paid ? "Оплата прошла, заказ у Таири. Он напишет тебе в Telegram, чтобы подтвердить доставку."
     : pay==="transfer" ? "Заказ у Таири. Он напишет тебе в Telegram и пришлёт реквизиты для оплаты."
     : "Заказ у Таири. Он напишет тебе в Telegram и пришлёт ссылку на оплату.";
-  b.innerHTML=`<canvas></canvas><div class="t"><span class="label">Заказ ${num}${paid?" · оплачен":""}</span><h2>Горит!</h2><p>${txt}</p><a class="btn ghost" href="${CONFIG.tg}" target="_blank" rel="noopener" style="text-decoration:none;text-align:center;display:block;width:100%;max-width:320px;margin-inline:auto">Написать Таири</a><button class="back" id="burnClose" style="margin-top:14px">На главную</button></div>`;
+  const has=!!myGet(num), bs="display:block;width:100%;max-width:320px;margin-inline:auto";
+  b.innerHTML=`<canvas></canvas><div class="t"><span class="label">Заказ ${num}${paid?" · оплачен":""}</span><h2>Горит!</h2><p>${txt}</p>${has?`<p>Статус заказа — в разделе «Мои заказы». Чтобы открыть заказ с другого телефона, сохрани ссылку на него.</p><button class="btn" id="burnMy" style="${bs}">Мои заказы</button><button class="btn ghost" id="burnLink" style="${bs}">Скопировать ссылку на заказ</button>`:""}<a class="btn ghost" href="${CONFIG.tg}" target="_blank" rel="noopener" style="text-decoration:none;text-align:center;${bs}">Написать Таири</a><button class="back" id="burnClose" style="margin-top:14px">На главную</button></div>`;
   b.hidden=false;
   const f=makeFire(b.querySelector("canvas"),{noCan:true}); f.burst();
   $("#burnClose").onclick=()=>{f.stop();b.hidden=true;go("home");};
+  if(has){
+    $("#burnMy").onclick=()=>{f.stop();b.hidden=true;go("my");};
+    $("#burnLink").onclick=()=>{ copyText(myLink(num)); $("#burnLink").textContent="Ссылка скопирована"; };
+  }
 }
+
+/* =========================================================
+   МОИ ЗАКАЗЫ: номера и ключи заказов хранятся в браузере покупателя,
+   сервер по ключу отдаёт состав, сумму и статус (без имени, телефона и адреса)
+   ========================================================= */
+const MY_KEY="tairi-orders";
+function myList(){
+  try{ const a=JSON.parse(localStorage.getItem(MY_KEY)||"[]"); return Array.isArray(a) ? a.filter(x=>x && /^T-[A-Z0-9]{4,12}$/.test(x.id) && /^[a-f0-9]{16}$/.test(x.k)) : []; }catch(e){ return []; }
+}
+function mySave(a){ try{ localStorage.setItem(MY_KEY, JSON.stringify(a.slice(0,20))); }catch(e){} }
+function myAdd(id,k){ if(!id||!k) return; const a=myList().filter(x=>x.id!==id); a.unshift({id,k,t:Date.now()}); mySave(a); }
+function myGet(id){ return myList().find(x=>x.id===id); }
+function myLink(id){ const it=myGet(id); return it ? `${location.origin}${location.pathname}#my/${it.id}/${it.k}` : ""; }
+/* Личная ссылка вида tahiry.world/#my/T-AB12CD/ключ: добавляет заказ в «Мои заказы» на этом устройстве */
+function myImport(h){
+  const m=/^my\/(T-[A-Z0-9]{4,12})\/([a-f0-9]{16})$/.exec(h||"");
+  if(!m) return false;
+  if(!myGet(m[1])) myAdd(m[1],m[2]);
+  try{ history.replaceState(null,"","#my"); }catch(e){}
+  return true;
+}
+const MY_ST={new:"Принят", unpaid:"Не оплачен", paid:"Оплачен", shipped:"Отправлен", cancelled:"Отменён"};
+function myStatus(o){
+  if(o.status==="new" && o.pay==="card" && o.can_pay) return "Ждёт оплаты";
+  if(o.status==="shipped" && o.ship==="pickup") return "Получен";
+  return MY_ST[o.status]||o.status;
+}
+function myNext(o){
+  const tg=`<a href="${CONFIG.tg}" target="_blank" rel="noopener">Telegram</a>`;
+  if(o.status==="new" && o.pay==="card" && o.can_pay) return VIA_CDN ? "Заказ ждёт оплаты картой. Страница Т-Банка не открывается с VPN и из-за границы: выключи VPN, обнови страницу и нажми «Оплатить»." : "Заказ ждёт оплаты картой." + (o.lines.some(l=>l.one) ? " Вещи 1/1 держатся за тобой 25 минут после нажатия «Оплатить»." : "");
+  if(o.status==="new") return `Таири напишет тебе в ${tg} и пришлёт ${o.pay==="transfer"?"реквизиты":"ссылку"} для оплаты.`;
+  if(o.status==="unpaid") return o.can_pay ? "Оплата не прошла. Можно попробовать ещё раз или оплатить переводом — напиши Таири." : `Оплата не прошла. Напиши Таири в ${tg}.`;
+  if(o.status==="paid") return o.ship==="pickup" ? `Оплата получена. Таири напишет в ${tg}, чтобы договориться о самовывозе.` : "Оплата получена. Таири соберёт заказ и отправит СДЭК — здесь появится трек-номер.";
+  if(o.status==="shipped") return o.ship==="pickup" ? "Заказ получен. Спасибо!" : "Заказ отправлен СДЭК.";
+  if(o.status==="cancelled") return `Заказ отменён. Если это ошибка, напиши Таири в ${tg}.`;
+  return "";
+}
+function myCard(o){
+  if(o.missing) return `<article class="myo-card"><div class="myo-top"><span class="myo-id">Заказ ${o.id}</span></div><p class="myo-next">Заказ не найден. Возможно, ссылка неполная — напиши Таири в <a href="${CONFIG.tg}" target="_blank" rel="noopener">Telegram</a>.</p><button class="myo-rm" data-myrm="${o.id}">Убрать из списка</button></article>`;
+  const wait=o.can_pay && (o.status==="new"||o.status==="unpaid") && o.pay==="card";
+  const date=new Date(o.created); const ds=isNaN(date)?"":date.toLocaleDateString("ru-RU",{day:"numeric",month:"long"})+", "+date.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+  const track=o.track?`<p class="myo-next">Трек-номер СДЭК: <a href="https://www.cdek.ru/ru/tracking?order_id=${encodeURIComponent(o.track)}" target="_blank" rel="noopener">${o.track}</a></p>`:"";
+  return `<article class="myo-card${wait?" wait":""}">
+    <div class="myo-top"><span class="myo-id">Заказ ${o.id}</span><span class="myo-st${o.status==="paid"||o.status==="shipped"?" on":""}">${myStatus(o)}</span></div>
+    <div class="myo-date">${ds} · ${o.pay==="card"?"картой онлайн":"переводом"} · ${o.ship==="pickup"?"самовывоз":"СДЭК"}</div>
+    <ul>${o.lines.map(l=>`<li>${nbsp(l.name)}${l.size?`, ${l.size}`:""} × ${l.qty} — ${rub(l.price*l.qty)}${l.one?" (1/1)":""}</li>`).join("")}</ul>
+    <div class="totals">${o.disc?`<div><span>Скидка ${o.promo}</span><span>−${rub(o.disc)}</span></div>`:""}<div><span>Доставка</span><span>${o.ship_cost?rub(o.ship_cost):"0 ₽"}</span></div><div class="sum"><span>Итого</span><span>${rub(o.total)}</span></div></div>
+    <p class="myo-next">${myNext(o)}</p>${track}
+    <div class="myo-act">${wait?`<button class="btn" data-mypay="${o.id}">Оплатить ${rub(o.total)}</button>`:""}<button class="btn ghost" data-mylink="${o.id}">Скопировать ссылку на заказ</button><div class="msg" id="mym-${o.id}" role="status"></div></div>
+    <button class="myo-rm" data-myrm="${o.id}">Убрать из списка</button>
+  </article>`;
+}
+let MY_NOTE="";
+function renderMy(note){
+  note=note||MY_NOTE; MY_NOTE="";
+  const list=myList();
+  app.innerHTML=`<section class="view wrap">${head("Мои заказы","Заказы, оформленные на сайте с этого устройства. Статус обновляется сам: оплату видно сразу, отправку — когда Таири отметит её.")}
+    <div class="myo" id="myList">${note?`<div class="myo-note">${note}</div>`:""}${list.length?`<p class="myo-empty" id="myLoading">Загружаем заказы…</p>`:`<p class="myo-empty">Здесь пока пусто. Заказ появится сразу после оформления. Если ты оформлял заказ на другом устройстве, открой ссылку на заказ или найди его по номеру ниже.</p>`}</div>
+    <div class="myo-find"><h2>Найти заказ</h2><p>Номер заказа (например, T-AB12CD) есть в сообщении от Таири и на экране после оформления. Телефон — тот, что указан в заказе.</p>
+      <form id="findForm" novalidate><div class="two"><div class="field"><label for="fId">Номер заказа</label><input id="fId" placeholder="T-AB12CD" autocomplete="off" autocapitalize="characters"></div><div class="field"><label for="fPhone">Телефон</label><input id="fPhone" type="tel" placeholder="+7" autocomplete="tel"></div></div>
+      <button class="btn" type="submit">Найти</button><div class="msg" id="findMsg" role="status"></div></form></div>
+  </section>${footer()}`;
+  $("#findForm").onsubmit=findOrder;
+  app.querySelector("section").addEventListener("click",myClick);
+  if(list.length) loadMy(note);
+}
+let MY_REQ=0;
+async function loadMy(note){
+  const list=myList(), req=++MY_REQ;
+  let d=null;
+  try{
+    const r=await fetch(CONFIG.api+"?a=my",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orders:list.map(x=>({id:x.id,k:x.k}))})});
+    if(r.headers.get("x-shard")||r.headers.get("x-id")) VIA_CDN=true;
+    d=r.ok ? await r.json() : null;
+  }catch(e){}
+  const box=$("#myList"); if(!box || req!==MY_REQ) return;
+  if(!d || !Array.isArray(d.orders)){ box.innerHTML=`${note?`<div class="myo-note">${note}</div>`:""}<p class="myo-empty">Не получилось загрузить заказы. Проверь интернет и обнови страницу.</p>`; return; }
+  box.innerHTML=(note?`<div class="myo-note">${note}</div>`:"")+d.orders.map(myCard).join("");
+  // заказ из «ждёт оплаты» уже оплачен или отменён — напоминание об оплате больше не нужно
+  try{ const p=JSON.parse(localStorage.getItem("tairi-pending")||"null"); const o=p&&d.orders.find(x=>x.id===p.num); if(o && !o.missing && !(o.status==="new"&&o.can_pay)) localStorage.removeItem("tairi-pending"); }catch(e){}
+}
+function myClick(e){
+  const pay=e.target.closest("[data-mypay]"), link=e.target.closest("[data-mylink]"), rm=e.target.closest("[data-myrm]");
+  if(pay) payOrder(pay.dataset.mypay, pay);
+  if(link){ copyText(myLink(link.dataset.mylink)); link.textContent="Ссылка скопирована"; }
+  if(rm && confirm(`Убрать заказ ${rm.dataset.myrm} из списка на этом устройстве? Сам заказ не отменится.`)){ mySave(myList().filter(x=>x.id!==rm.dataset.myrm)); renderMy(); }
+}
+async function payOrder(id, btn){
+  const it=myGet(id), m=$("#mym-"+id); if(!it) return;
+  btn.disabled=true; if(m){ m.className="msg"; m.textContent="Открываем оплату…"; }
+  try{
+    const r=await fetch(CONFIG.api+"?a=pay",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id,k:it.k})});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok && d.paymentUrl){
+      try{ localStorage.setItem("tairi-pending", JSON.stringify({num:id, api:true, at:Date.now()})); }catch(e){}
+      location.href=d.paymentUrl; return;
+    }
+    if(m){ m.className="msg err"; m.textContent=d.error||"Не получилось открыть оплату. Попробуй ещё раз."; }
+    if(r.status===409) setTimeout(()=>loadMy(),2500);
+  }catch(e){ if(m){ m.className="msg err"; m.textContent="Не получилось открыть оплату. Проверь интернет и попробуй ещё раз."; } }
+  btn.disabled=false;
+}
+async function findOrder(e){
+  e.preventDefault();
+  const m=$("#findMsg"), id=$("#fId").value.trim(), phone=$("#fPhone").value.trim(), btn=e.target.querySelector("button");
+  if(!id||!phone){ m.className="msg err"; m.textContent="Нужны номер заказа и телефон."; return; }
+  btn.disabled=true; m.className="msg"; m.textContent="Ищем…";
+  try{
+    const r=await fetch(CONFIG.api+"?a=find",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id,phone})});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok && d.order && d.key){ myAdd(d.order.id,d.key); renderMy(); return; }
+    m.className="msg err"; m.textContent=d.error||"Заказ не найден.";
+  }catch(err){ m.className="msg err"; m.textContent="Не получилось связаться с сайтом. Попробуй ещё раз."; }
+  btn.disabled=false;
+}
+/* Напоминание внизу экрана: заказ ждёт оплаты (например, страница банка не открылась из-за VPN) */
+function showPayBar(){
+  let p=null; try{ p=JSON.parse(localStorage.getItem("tairi-pending")||"null"); }catch(e){}
+  if(!p || !p.api || !p.at || Date.now()-p.at>30*60000 || !myGet(p.num)) return;
+  if((location.hash||"").startsWith("#my")) return;
+  const bar=document.createElement("div"); bar.className="paybar"; bar.id="paybar";
+  bar.innerHTML=`<span>Заказ ${p.num} ждёт оплаты</span><button class="btn" data-go="my">Оплатить</button><button class="x" aria-label="Скрыть">×</button>`;
+  bar.querySelector(".x").onclick=()=>{ try{ localStorage.removeItem("tairi-pending"); }catch(e){} bar.remove(); };
+  document.body.appendChild(bar);
+}
+function hidePayBar(){ const b=$("#paybar"); if(b) b.remove(); }
 
 /* =========================================================
    LED-ТАБЛО: матрица 5×7, текст сдвигается на одну колонку за шаг
@@ -2742,13 +2933,17 @@ function syncTop(){
 addEventListener("scroll",()=>{ $(".top").classList.toggle("solid",scrollY>40); syncTop(); },{passive:true});
 $("#toTop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 saveCart();
-const ROUTES=["home","obnova","merch","art","projects","world","streets","club","tattoo","events","privacy","consent"];
-const start=(location.hash||"#home").slice(1);
+const ROUTES=["home","obnova","merch","art","projects","world","streets","club","tattoo","events","privacy","consent","my"];
+let start=(location.hash||"#home").slice(1);
+if(myImport(start)) start="my";   // открыли личную ссылку на заказ
 go(ROUTES.includes(start)?start:"home", false, start);
 /* «Назад»/«Вперёд» в браузере и ручная правка адреса: показываем нужный раздел, закрываем карточку, корзину и меню */
-addEventListener("popstate",()=>{ const v=(location.hash||"#home").slice(1); const m=$("#modal"); m.querySelectorAll("video").forEach(x=>x.pause()); m.hidden=true; closeCart(); go(ROUTES.includes(v)?v:"home", false, v); });
+addEventListener("popstate",()=>{ let v=(location.hash||"#home").slice(1); if(myImport(v)) v="my"; const m=$("#modal"); m.querySelectorAll("video").forEach(x=>x.pause()); m.hidden=true; closeCart(); go(ROUTES.includes(v)?v:"home", false, v); });
 checkPayReturn();
 checkShop();
+showPayBar();
+document.addEventListener("visibilitychange",()=>{ refreshShop(); if(document.visibilityState==="visible" && (location.hash||"")==="#my" && $("#myList")) loadMy(); });
+setInterval(()=>{ const v=(location.hash||"#home").slice(1); if(v==="obnova"||v==="merch") refreshShop(); },30000);
 gateLoader();
 </script>
 </body></html>
