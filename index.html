@@ -1639,19 +1639,26 @@ function head(title, text){
 }
 /* однобуквенные предлоги и союзы не висят в конце строки: «кепка с / вышивкой» → «кепка / с вышивкой» */
 const nbsp = t => String(t).replace(/(^|\s)([вскоуиаВСКОУИА])\s/g, "$1$2\u00a0");
+/* Вещь 1/1 после покупки остаётся на витрине с пометкой «продано», пока её оплачивают — «бронь».
+   Скрытое вручную со страницы заказов и распроданный тиражный мерч на витрине не показываются. */
+function shopState(p){
+  if(HIDDEN.has(p.id)) return null;
+  if(p.line==="obnova") return HELD.has(p.id) ? {...p, held:true} : SOLD.has(p.id) ? {...p, sold:true} : p;
+  return SOLD.has(p.id) ? null : p;
+}
 function card(p){
-  const badge = p.sold ? `<span class="badge dim">продано</span>` : p.line==="obnova" ? `<span class="badge">1/1</span>` : p.soon ? `<span class="badge dim">скоро</span>` : p.oldPrice ? `<span class="badge">−${Math.round((1-p.price/p.oldPrice)*100)}%</span>` : p.fresh ? `<span class="badge dim">новое</span>` : p.limited ? `<span class="badge dim">лимит</span>` : "";
+  const badge = p.sold ? `<span class="badge dim">продано</span>` : p.held ? `<span class="badge">бронь</span>` : p.line==="obnova" ? `<span class="badge">1/1</span>` : p.soon ? `<span class="badge dim">скоро</span>` : p.oldPrice ? `<span class="badge">−${Math.round((1-p.price/p.oldPrice)*100)}%</span>` : p.fresh ? `<span class="badge dim">новое</span>` : p.limited ? `<span class="badge dim">лимит</span>` : "";
   const meta = p.line==="obnova" ? `Один экземпляр, ${/^один размер$/i.test(p.sizes[0]||"")?"один размер":"размер "+p.sizes[0]}` : p.line==="art" ? p.sizes[0]+(p.year?` · ${p.year}`:"") : p.desc;
-  return `<button class="item${p.sold?" sold":""}" data-open="${p.id}">
+  return `<button class="item${p.sold||p.held?" sold":""}" data-open="${p.id}">
     <div class="pic${p.photo||p.fill?" sq":""}">${badge}${pic(p)}</div>
-    <div class="row"><span class="name">${nbsp(p.name)}</span><span class="price">${p.oldPrice?`<s>${rub(p.oldPrice)}</s> `:""}${p.sold?"продано":p.price?rub(p.price):"по запросу"}</span></div>
+    <div class="row"><span class="name">${nbsp(p.name)}</span><span class="price">${p.oldPrice?`<s>${rub(p.oldPrice)}</s> `:""}${p.sold?"продано":p.held?"бронь":p.price?rub(p.price):"по запросу"}</span></div>
     <span class="meta">${meta}</span></button>`;
 }
 
 function renderMerch(tab="all"){
   const lines = new Set(MERCH_TABS.map(t=>t.id));   // «Все товары» — вещи из всех разделов мерча
   const T = MERCH_TABS.find(t=>t.id===tab) || MERCH_TABS[0]; tab = T.id;
-  const list = PRODUCTS.filter(p=>(tab==="all" ? lines.has(p.line) : p.line===tab) && !SOLD.has(p.id));
+  const list = PRODUCTS.filter(p=>tab==="all" ? lines.has(p.line) : p.line===tab).map(shopState).filter(Boolean);
   app.innerHTML = `<section class="view wrap">${head("Мерч","Одежда и другие вещи с авторской графикой Таири — от небольших тиражей до изделий в одном экземпляре.")}
     <div class="tabs" role="tablist">
       ${MERCH_TABS.map(t=>`<button class="tab" role="tab" aria-selected="${t.id===tab}" data-tab="${t.id}">${t.label}</button>`).join("")}
@@ -1662,9 +1669,11 @@ function renderMerch(tab="all"){
 }
 
 function renderObnova(){
-  const list = PRODUCTS.filter(p=>p.line==="obnova" && !SOLD.has(p.id));
+  const list = PRODUCTS.filter(p=>p.line==="obnova").map(shopState).filter(Boolean);
+  const gone = `<p class="tab-note">Все вещи разобрали. Новые части анонсируются в <a href="${CONFIG.channel}" target="_blank" rel="noopener">Telegram-канале</a>.</p>`;
   app.innerHTML = `<section class="view wrap">${head("Обнова", OBNOVA_TEXT)}
-    <div class="grid">${list.length?list.map(card).join(""):`<p class="tab-note">Все вещи разобрали. Новые части анонсируются в <a href="${CONFIG.channel}" target="_blank" rel="noopener">Telegram-канале</a>.</p>`}</div></section>${footer()}`;
+    ${list.length && !list.some(p=>!p.sold&&!p.held)?gone:""}
+    <div class="grid">${list.length?list.map(card).join(""):gone}</div></section>${footer()}`;
 }
 
 function renderArt(){
@@ -1889,11 +1898,13 @@ document.addEventListener("click", e=>{
 function openProduct(id){
   let p = PRODUCTS.find(x=>x.id===id); if(!p) return;
   const avail = p.sizes.filter(s=>!outOf(p.id,s));
-  if(SOLD.has(p.id) || (p.sizes.length && !avail.length) || (!p.sizes.length && outOf(p.id,""))) p = {...p, sold:true};
+  if(HELD.has(p.id) && p.line==="obnova") p = {...p, held:true};
+  else if(SOLD.has(p.id) || (p.sizes.length && !avail.length) || (!p.sizes.length && outOf(p.id,""))) p = {...p, sold:true};
   const single = avail.length<=1 && p.sizes.length<=1;
   let size = p.sizes.length===1 ? p.sizes[0] : single ? "" : null;
   const m = $("#modal");
   const action = p.sold ? `<button class="btn" disabled>Продано</button><a class="btn ghost" style="text-align:center;text-decoration:none" href="${CONFIG.tg}" target="_blank" rel="noopener">Спросить о похожей работе</a>`
+    : p.held ? `<p class="p-note">Эту вещь сейчас оплачивают. Если оплата не пройдёт, бронь снимется и вещь снова можно будет купить.</p><button class="btn" disabled>Бронь</button>`
     : p.soon ? `<button class="btn" disabled>Скоро</button>`
     : p.price===null ? `<a class="btn" style="text-align:center;text-decoration:none" href="${CONFIG.tg}" target="_blank" rel="noopener">Узнать цену в Telegram</a>`
     : `<button class="btn" id="addBtn" ${single?"":"disabled"}>${single?"В корзину":"Выбери размер"}</button>`;
@@ -1907,12 +1918,12 @@ function openProduct(id){
     <div class="modal-info">
       <span class="label">${p.line==="art"?"Искусство"+(p.year?` · ${p.year}`:""):p.line==="obnova"?"Обнова 1/1":(MERCH_TABS.find(t=>t.id===p.line)||{label:""}).label}</span>
       <h3>${nbsp(p.name)}</h3>
-      <div class="price">${p.oldPrice?`<s style="color:var(--smoke);font-size:15px;margin-right:8px">${rub(p.oldPrice)}</s>`:""}${p.sold?"Продано":p.price?rub(p.price):"Цена по запросу"}</div>
+      <div class="price">${p.oldPrice?`<s style="color:var(--smoke);font-size:15px;margin-right:8px">${rub(p.oldPrice)}</s>`:""}${p.sold?"Продано":p.held?"Бронь":p.price?rub(p.price):"Цена по запросу"}</div>
       ${String(p.desc||"").split("\n\n").filter(Boolean).map(t=>`<p>${t}</p>`).join("")}
       ${p.bullets?`<ul class="specs">${p.bullets.map(b=>`<li>${b}</li>`).join("")}</ul>`:""}
       ${p.after?`<p>${p.after}</p>`:""}
       ${p.note?`<p class="p-note">${p.note}</p>`:""}
-      ${p.line==="obnova"&&!p.sold?`<p class="p-note">Один экземпляр</p>`:""}
+      ${p.line==="obnova"&&!p.sold&&!p.held?`<p class="p-note">Один экземпляр</p>`:""}
       ${p.sizes.length?`<div><div class="label" style="margin-bottom:8px">${p.line==="art"?"Формат":p.line==="kit"?"Размер лонгслива":"Размер"}</div>
         <div class="sizes">${p.sizes.map(s=>outOf(p.id,s)?`<button class="size out" disabled title="нет в наличии">${s}</button>`:`<button class="size" aria-pressed="${single}" data-size="${s}" ${single?"disabled":""}>${s}</button>`).join("")}</div></div>`
         : ["hoodie","collab"].includes(p.line) ? `<p class="size-hint">Размер укажи в комментарии к заказу.</p>` : ""}
@@ -2522,7 +2533,7 @@ function startFire(canvas){
 }
 
 /* ---------- Связь с сервером: заказы, оплата, наличие вещей 1/1 ---------- */
-let API_ON=false, PAY_ON=false, SOLD=new Set(), OUT={};
+let API_ON=false, PAY_ON=false, SOLD=new Set(), HELD=new Set(), HIDDEN=new Set(), OUT={};
 const sizeKey=s=>(s||"").trim()||"_";
 const outOf=(id,size)=>Array.isArray(OUT[id]) && OUT[id].includes(sizeKey(size));
 let VIA_CDN=false, SHOP_SIG=null, SHOP_AT=0;
@@ -2538,7 +2549,7 @@ async function checkShop(){
     VIA_CDN=!!(r.headers.get("x-shard")||r.headers.get("x-id"));
     d=r.ok ? await r.json() : null;
     if(!d || !d.orders) return;
-    API_ON=true; PAY_ON=!!d.pay; SOLD=new Set(d.sold||[]); OUT=(d.out&&typeof d.out==="object")?d.out:{};
+    API_ON=true; PAY_ON=!!d.pay; SOLD=new Set(d.sold||[]); HELD=new Set(d.held||[]); HIDDEN=new Set(d.hidden||[]); OUT=(d.out&&typeof d.out==="object")?d.out:{};
     // товары, добавленные со страницы заказов
     if(Array.isArray(d.items)){
       for(let i=PRODUCTS.length-1;i>=0;i--) if(PRODUCTS[i].custom) PRODUCTS.splice(i,1);
@@ -2550,7 +2561,7 @@ async function checkShop(){
   }catch(e){ return; }
   const before=cart.length; cart=cart.filter(l=>!SOLD.has(l.id) && !outOf(l.id,l.size)); if(cart.length!==before) saveCart();
   // витрину перерисовываем, только если что-то изменилось: первая загрузка, продажа, новый товар
-  const sig=JSON.stringify([[...SOLD].sort(),OUT,(d.items||[]).map(i=>[i.id,i.name,i.price,(i.photos||[]).length])]);
+  const sig=JSON.stringify([[...SOLD].sort(),[...HELD].sort(),[...HIDDEN].sort(),OUT,(d.items||[]).map(i=>[i.id,i.name,i.price,(i.photos||[]).length])]);
   if(sig===SHOP_SIG) return; SHOP_SIG=sig;
   const v=(location.hash||"#home").slice(1);
   if(v==="obnova") renderObnova();
@@ -2575,6 +2586,7 @@ async function submitOrder(f){
       btn.disabled=false; msg.className="msg err";
       msg.textContent=`Уже купили: ${names.join(", ")}. Вещь убрана из корзины${cart.length?" — можно оформить остальное.":"."}`;
       const t=$("#oTotals"); if(t && cart.length) f.querySelector('input[name="ship"]:checked').dispatchEvent(new Event("change"));
+      checkShop();   // уточняем у сайта: вещь продана или пока в брони
       return;
     }
     if(r.status===502 && d.orderId){
@@ -2588,7 +2600,7 @@ async function submitOrder(f){
       location.href=d.paymentUrl; return;
     }
     // вещи 1/1 из этого заказа сразу убираем с витрины, не дожидаясь перезагрузки страницы
-    cart.forEach(l=>{ const pr=PRODUCTS.find(x=>x.id===l.id); if(pr && pr.line==="obnova") SOLD.add(l.id); });
+    cart.forEach(l=>{ const pr=PRODUCTS.find(x=>x.id===l.id); if(pr && pr.line==="obnova"){ SOLD.add(l.id); HELD.add(l.id); } });
     cart=[];promo=null;saveCart();closeCart();burnSaved(d.orderId,false,f.pay.value);
     checkShop();
   }catch(e){
